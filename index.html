@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Kurs USD/IDR | Valas Sangkolo</title>
+  <meta name="description" content="Kalkulator komparasi kurs valuta asing USD ke IDR. Hitung selisih nilai, laba/rugi, dan simulasi target kurs.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-primary: #0c253b;
+      --color-primary-hover: #143553;
+      --color-accent: #97ad82;
+      --color-accent-dark: #2a5a24;
+      --color-accent-bg: #f1f6ee;
+      --color-accent-border: #c8dec0;
+      --color-bg: #fffdf8;
+      --color-surface: #ffffff;
+      --color-text: #081a2a;
+      --color-muted: #536270;
+      --color-border: #e6e1d5;
+      --color-border-subtle: #f0ebe0;
+      --color-danger: #9a2828;
+      --color-danger-bg: #fdf2f2;
+      --color-danger-border: #f0cccc;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --shadow-sm: 0 1px 3px rgba(12, 37, 59, 0.05);
+      --shadow-md: 0 4px 12px rgba(12, 37, 59, 0.07);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      font-family: 'Instrument Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header {
+      border-bottom: 1px solid var(--color-border);
+      background-color: var(--color-surface);
+    }
+
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 18px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--color-primary);
+    }
+
+    .brand-title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--color-primary);
+    }
+
+    .brand-tag {
+      font-size: 13px;
+      color: var(--color-muted);
+      font-weight: 500;
+    }
+
+    .live-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--color-muted);
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      background-color: var(--color-accent);
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px rgba(151, 173, 130, 0.3);
+    }
+
+    main {
+      flex: 1;
+      max-width: 960px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 32px 20px 48px;
+    }
+
+    .editorial-intro {
+      margin-bottom: 28px;
+    }
+
+    .editorial-intro h1 {
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 32px;
+      font-weight: 600;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      color: var(--color-primary);
+      margin-bottom: 8px;
+    }
+
+    .editorial-intro p {
+      font-size: 15px;
+      color: var(--color-muted);
+      max-width: 640px;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 820px) {
+      .grid-container {
+        grid-template-columns: 1fr;
+      }
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    .card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--color-primary);
+      letter-spacing: -0.01em;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 8px;
+    }
+
+    .form-label-hint {
+      font-size: 12px;
+      color: var(--color-muted);
+      font-weight: 400;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-prefix {
+      position: absolute;
+      left: 14px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--color-muted);
+      pointer-events: none;
+    }
+
+    .form-input {
+      width: 100%;
+      height: 48px;
+      padding: 10px 14px 10px 42px;
+      background: var(--color-surface);
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-md);
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-text);
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .form-input:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba(12, 37, 59, 0.08);
+    }
+
+    .quick-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .chip-btn {
+      appearance: none;
+      border: 1px solid var(--color-border);
+      background: var(--color-bg);
+      color: var(--color-text);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      min-height: 34px;
+      transition: all 0.15s ease;
+    }
+
+    .chip-btn:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    .chip-btn.active {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: #fff;
+    }
+
+    .rates-row {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+    }
+
+    .swap-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin: 2px 0;
+    }
+
+    .swap-divider::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 50%;
+      height: 1px;
+      background-color: var(--color-border-subtle);
+      z-index: 0;
+    }
+
+    .swap-btn {
+      position: relative;
+      z-index: 1;
+      appearance: none;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-primary);
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 36px;
+      transition: all 0.15s ease;
+    }
+
+    .swap-btn:hover {
+      background: var(--color-bg);
+      border-color: var(--color-primary);
+    }
+
+    .market-fetch-card {
+      margin-top: 16px;
+      padding: 12px 14px;
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .market-info-text {
+      font-size: 12px;
+      color: var(--color-muted);
+    }
+
+    .market-rate-val {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+
+    .apply-market-btn {
+      appearance: none;
+      border: 1px solid var(--color-primary);
+      background: var(--color-surface);
+      color: var(--color-primary);
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      min-height: 34px;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .apply-market-btn:hover {
+      background: var(--color-primary);
+      color: #fff;
+    }
+
+    /* Result Panel */
+    .result-card {
+      background: var(--color-surface);
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .result-badge-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .status-badge.profit {
+      background: var(--color-accent-bg);
+      color: var(--color-accent-dark);
+      border: 1px solid var(--color-accent-border);
+    }
+
+    .status-badge.loss {
+      background: var(--color-danger-bg);
+      color: var(--color-danger);
+      border: 1px solid var(--color-danger-border);
+    }
+
+    .status-badge.neutral {
+      background: #f4f3ed;
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
+    }
+
+    .main-diff-box {
+      margin-bottom: 24px;
+      padding: 20px;
+      border-radius: var(--radius-md);
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+    }
+
+    .diff-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--color-muted);
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+
+    .diff-amount {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+
+    .diff-amount.profit {
+      color: var(--color-accent-dark);
+    }
+
+    .diff-amount.loss {
+      color: var(--color-danger);
+    }
+
+    .diff-amount.neutral {
+      color: var(--color-primary);
+    }
+
+    .diff-subtext {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-muted);
+    }
+
+    .breakdown-list {
+      list-style: none;
+      border-top: 1px solid var(--color-border-subtle);
+      margin-bottom: 24px;
+    }
+
+    .breakdown-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--color-border-subtle);
+      font-size: 14px;
+    }
+
+    .breakdown-label {
+      color: var(--color-muted);
+    }
+
+    .breakdown-val {
+      font-weight: 600;
+      color: var(--color-text);
+      text-align: right;
+    }
+
+    .action-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      appearance: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: var(--radius-md);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      min-height: 44px;
+      flex: 1;
+      transition: all 0.15s ease;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      border: 1px solid var(--color-primary);
+      color: #ffffff;
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary-hover);
+    }
+
+    .btn-secondary {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      color: var(--color-text);
+    }
+
+    .btn-secondary:hover {
+      background: var(--color-bg);
+      border-color: var(--color-primary);
+    }
+
+    /* Simulation / Advanced Box */
+    .sim-card {
+      margin-top: 24px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+    }
+
+    .sim-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 640px) {
+      .sim-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .sim-output-box {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .sim-output-title {
+      font-size: 12px;
+      color: var(--color-muted);
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .sim-output-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+
+    /* History Table */
+    .history-card {
+      margin-top: 24px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+    }
+
+    .history-empty {
+      padding: 32px 16px;
+      text-align: center;
+      color: var(--color-muted);
+      font-size: 14px;
+    }
+
+    .history-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+
+    .history-table th {
+      text-align: left;
+      padding: 10px 12px;
+      color: var(--color-muted);
+      font-weight: 600;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .history-table td {
+      padding: 12px;
+      border-bottom: 1px solid var(--color-border-subtle);
+      color: var(--color-text);
+      vertical-align: middle;
+    }
+
+    .history-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .history-btn-del {
+      appearance: none;
+      border: none;
+      background: none;
+      color: var(--color-muted);
+      cursor: pointer;
+      padding: 4px;
+      font-size: 12px;
+    }
+
+    .history-btn-del:hover {
+      color: var(--color-danger);
+    }
+
+    .history-btn-load {
+      appearance: none;
+      border: 1px solid var(--color-border);
+      background: var(--color-bg);
+      color: var(--color-text);
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .history-btn-load:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--color-primary);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: var(--shadow-md);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.2s ease;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    footer {
+      border-top: 1px solid var(--color-border);
+      background: var(--color-surface);
+      margin-top: auto;
+    }
+
+    .footer-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 20px;
+      font-size: 13px;
+      color: var(--color-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .footer-inner a {
+      color: var(--color-primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .footer-inner a:hover {
+      text-decoration: underline;
+    }
+
+    svg {
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <a href="/" class="brand">
+        <span class="brand-title">Kalkulator Kurs</span>
+        <span class="brand-tag">USD / IDR</span>
+      </a>
+      <div class="live-indicator">
+        <span class="pulse-dot"></span>
+        <span id="marketStatusText">Memuat kurs referensi...</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="editorial-intro">
+      <h1>Komparasi Nilai & Selisih Kurs</h1>
+      <p>Simulasi kalkulasi valuta asing cepat untuk mengukur perbedaan nominal beli versus jual, selisih keuntungan, dan target kurs jual.</p>
+    </div>
+
+    <div class="grid-container">
+      <!-- Input Section -->
+      <section class="card" aria-labelledby="form-heading">
+        <div class="card-header">
+          <h2 id="form-heading" class="card-title">Parameter Transaksi</h2>
+        </div>
+
+        <!-- Nominal USD -->
+        <div class="form-group">
+          <label class="form-label" for="usdAmount">
+            <span>Nominal Valas (USD)</span>
+            <span class="form-label-hint">Dolar Amerika Serikat</span>
+          </label>
+          <div class="input-wrapper">
+            <span class="input-prefix">$</span>
+            <input type="text" inputmode="decimal" id="usdAmount" class="form-input" value="100" autocomplete="off">
+          </div>
+          <div class="quick-chips">
+            <button type="button" class="chip-btn" data-val="50">$50</button>
+            <button type="button" class="chip-btn active" data-val="100">$100</button>
+            <button type="button" class="chip-btn" data-val="250">$250</button>
+            <button type="button" class="chip-btn" data-val="500">$500</button>
+            <button type="button" class="chip-btn" data-val="1000">$1.000</button>
+            <button type="button" class="chip-btn" data-val="5000">$5.000</button>
+          </div>
+        </div>
+
+        <div class="rates-row">
+          <!-- Kurs A -->
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" for="rateA">
+              <span>Kurs A (Acuan / Beli)</span>
+              <span class="form-label-hint" id="hintSubtotalA">Total: Rp 1.815.000</span>
+            </label>
+            <div class="input-wrapper">
+              <span class="input-prefix">Rp</span>
+              <input type="text" inputmode="decimal" id="rateA" class="form-input" value="18.150" autocomplete="off">
+            </div>
+          </div>
+
+          <!-- Swap Button -->
+          <div class="swap-divider">
+            <button type="button" id="btnSwap" class="swap-btn" title="Tukar posisi Kurs A dan Kurs B">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m7 15 5 5 5-5"/>
+                <path d="m7 9 5-5 5 5"/>
+              </svg>
+              <span>Tukar Kurs A ↔ B</span>
+            </button>
+          </div>
+
+          <!-- Kurs B -->
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" for="rateB">
+              <span>Kurs B (Pembanding / Jual)</span>
+              <span class="form-label-hint" id="hintSubtotalB">Total: Rp 1.795.000</span>
+            </label>
+            <div class="input-wrapper">
+              <span class="input-prefix">Rp</span>
+              <input type="text" inputmode="decimal" id="rateB" class="form-input" value="17.950" autocomplete="off">
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Market Box -->
+        <div class="market-fetch-card" id="marketBox">
+          <div>
+            <div class="market-info-text">Kurs Pasar Live (Bank/Interbank)</div>
+            <div class="market-rate-val" id="marketRateText">Rp 18.132 / USD</div>
+          </div>
+          <button type="button" id="btnApplyMarket" class="apply-market-btn">Gunakan di Kurs B</button>
+        </div>
+      </section>
+
+      <!-- Result Section -->
+      <section class="result-card" aria-labelledby="result-heading">
+        <div class="result-badge-row">
+          <h2 id="result-heading" class="card-title">Hasil Analisis</h2>
+          <span id="statusBadge" class="status-badge loss">Rugi</span>
+        </div>
+
+        <!-- Highlight Result -->
+        <div class="main-diff-box">
+          <div class="diff-label" id="diffLabelText">Selisih Total (Rugi)</div>
+          <div class="diff-amount loss" id="diffAmountText">-Rp 20.000</div>
+          <div class="diff-subtext" id="diffPercentText">-1,10% dari modal Kurs A</div>
+        </div>
+
+        <!-- Metrics Breakdown -->
+        <ul class="breakdown-list">
+          <li class="breakdown-item">
+            <span class="breakdown-label">Nilai di Kurs A</span>
+            <span class="breakdown-val" id="valTotalA">Rp 1.815.000</span>
+          </li>
+          <li class="breakdown-item">
+            <span class="breakdown-label">Nilai di Kurs B</span>
+            <span class="breakdown-val" id="valTotalB">Rp 1.795.000</span>
+          </li>
+          <li class="breakdown-item">
+            <span class="breakdown-label">Selisih per 1 USD</span>
+            <span class="breakdown-val" id="valPerDollar">-Rp 200 / USD</span>
+          </li>
+          <li class="breakdown-item">
+            <span class="breakdown-label">Status Kurs B vs A</span>
+            <span class="breakdown-val" id="valStatusSummary">Depresiasi (-1,10%)</span>
+          </li>
+        </ul>
+
+        <div class="action-row">
+          <button type="button" id="btnCopySummary" class="btn btn-primary">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/>
+              <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
+            </svg>
+            <span>Salin Rangkuman</span>
+          </button>
+          <button type="button" id="btnSaveHistory" class="btn btn-secondary">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+              <polyline points="17 21 17 13 7 13 7 21"/>
+              <polyline points="7 3 7 8 15 8"/>
+            </svg>
+            <span>Simpan</span>
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <!-- Simulator Target Section -->
+    <section class="sim-card">
+      <div class="card-header">
+        <h2 class="card-title">Simulasi Target Laba Bersih</h2>
+      </div>
+      <p style="font-size: 14px; color: var(--color-muted);">Hitung berapa kurs jual (Kurs B) yang dibutuhkan jika Anda mengincar nominal keuntungan tertentu dari modal Kurs A.</p>
+      
+      <div class="sim-grid">
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label" for="targetProfitInput">
+            <span>Target Untung Bersih (IDR)</span>
+          </label>
+          <div class="input-wrapper">
+            <span class="input-prefix">Rp</span>
+            <input type="text" inputmode="decimal" id="targetProfitInput" class="form-input" value="100.000" autocomplete="off">
+          </div>
+        </div>
+
+        <div class="sim-output-box">
+          <span class="sim-output-title">Kurs Jual Target Minimal</span>
+          <span class="sim-output-value" id="targetRateOutput">Rp 19.150 / USD</span>
+          <span style="font-size: 12px; color: var(--color-muted); margin-top: 2px;" id="targetRateDiff">+Rp 1.000 / USD di atas Kurs A</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- History Log Section -->
+    <section class="history-card">
+      <div class="card-header">
+        <h2 class="card-title">Riwayat Skenario Tersimpan</h2>
+        <button type="button" id="btnClearHistory" class="history-btn-del" style="font-size: 13px;">Hapus Semua</button>
+      </div>
+      <div id="historyTableContainer">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <span>Kalkulator Valas Sangkolo</span>
+      <a href="https://sangkolo.com" target="_blank" rel="noopener">sangkolo.com</a>
+    </div>
+  </footer>
+
+  <div id="toast" class="toast">Rangkuman berhasil disalin ke clipboard</div>
+
+  <script>
+    (function() {
+      // DOM Elements
+      const usdInput = document.getElementById('usdAmount');
+      const rateAInput = document.getElementById('rateA');
+      const rateBInput = document.getElementById('rateB');
+      const btnSwap = document.getElementById('btnSwap');
+      const hintSubtotalA = document.getElementById('hintSubtotalA');
+      const hintSubtotalB = document.getElementById('hintSubtotalB');
+
+      // Result Elements
+      const statusBadge = document.getElementById('statusBadge');
+      const diffLabelText = document.getElementById('diffLabelText');
+      const diffAmountText = document.getElementById('diffAmountText');
+      const diffPercentText = document.getElementById('diffPercentText');
+      const valTotalA = document.getElementById('valTotalA');
+      const valTotalB = document.getElementById('valTotalB');
+      const valPerDollar = document.getElementById('valPerDollar');
+      const valStatusSummary = document.getElementById('valStatusSummary');
+
+      // Market Elements
+      const marketStatusText = document.getElementById('marketStatusText');
+      const marketRateText = document.getElementById('marketRateText');
+      const btnApplyMarket = document.getElementById('btnApplyMarket');
+      let liveMarketRate = null;
+
+      // Target Simulator Elements
+      const targetProfitInput = document.getElementById('targetProfitInput');
+      const targetRateOutput = document.getElementById('targetRateOutput');
+      const targetRateDiff = document.getElementById('targetRateDiff');
+
+      // Actions & History
+      const btnCopySummary = document.getElementById('btnCopySummary');
+      const btnSaveHistory = document.getElementById('btnSaveHistory');
+      const btnClearHistory = document.getElementById('btnClearHistory');
+      const historyTableContainer = document.getElementById('historyTableContainer');
+      const toast = document.getElementById('toast');
+      const chips = document.querySelectorAll('.chip-btn');
+
+      // Number Formatting Helpers
+      function parseIdr(str) {
+        if (!str) return 0;
+        const cleaned = String(str).replace(/[^0-9,-]/g, '').replace(',', '.');
+        const num = parseFloat(cleaned);
+        return isNaN(num) ? 0 : num;
+      }
+
+      function formatNumber(num, maxFraction = 0) {
+        if (num === null || isNaN(num)) return '0';
+        return new Intl.NumberFormat('id-ID', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: maxFraction
+        }).format(num);
+      }
+
+      function formatIdrCurrency(num) {
+        return 'Rp ' + formatNumber(num);
+      }
+
+      function formatUsdCurrency(num) {
+        return '$' + formatNumber(num, 2);
+      }
+
+      // Input Masking on Blur / Change
+      function attachInputFormatting(input, maxFraction = 0) {
+        input.addEventListener('blur', function() {
+          const val = parseIdr(input.value);
+          input.value = formatNumber(val, maxFraction);
+          calculate();
+        });
+        input.addEventListener('input', function() {
+          calculate();
+        });
+      }
+
+      attachInputFormatting(usdInput, 2);
+      attachInputFormatting(rateAInput, 2);
+      attachInputFormatting(rateBInput, 2);
+      attachInputFormatting(targetProfitInput, 0);
+
+      // Calculation Engine
+      function calculate() {
+        const usd = parseIdr(usdInput.value);
+        const rateA = parseIdr(rateAInput.value);
+        const rateB = parseIdr(rateBInput.value);
+
+        const totalA = usd * rateA;
+        const totalB = usd * rateB;
+        const diffTotal = totalB - totalA;
+        const diffPerUsd = rateB - rateA;
+        const percentChange = rateA > 0 ? (diffPerUsd / rateA) * 100 : 0;
+
+        // Subtotals
+        hintSubtotalA.textContent = 'Total: ' + formatIdrCurrency(totalA);
+        hintSubtotalB.textContent = 'Total: ' + formatIdrCurrency(totalB);
+
+        // Result displays
+        valTotalA.textContent = formatIdrCurrency(totalA);
+        valTotalB.textContent = formatIdrCurrency(totalB);
+
+        const formattedDiffTotal = (diffTotal > 0 ? '+' : '') + formatIdrCurrency(diffTotal);
+        const formattedDiffPerUsd = (diffPerUsd > 0 ? '+' : '') + formatNumber(diffPerUsd, 2) + ' / USD';
+        valPerDollar.textContent = formattedDiffPerUsd;
+
+        const formattedPercent = (percentChange > 0 ? '+' : '') + formatNumber(percentChange, 2) + '%';
+
+        if (Math.abs(diffTotal) < 0.01) {
+          statusBadge.className = 'status-badge neutral';
+          statusBadge.textContent = 'Impas';
+          diffLabelText.textContent = 'Selisih Total (Break Even)';
+          diffAmountText.className = 'diff-amount neutral';
+          diffAmountText.textContent = 'Rp 0';
+          diffPercentText.textContent = '0,00% (Kurs sama)';
+          valStatusSummary.textContent = 'Tidak ada selisih';
+        } else if (diffTotal > 0) {
+          statusBadge.className = 'status-badge profit';
+          statusBadge.textContent = 'Untung';
+          diffLabelText.textContent = 'Selisih Total (Untung)';
+          diffAmountText.className = 'diff-amount profit';
+          diffAmountText.textContent = formattedDiffTotal;
+          diffPercentText.textContent = formattedPercent + ' dari modal Kurs A';
+          valStatusSummary.textContent = 'Apresiasi (' + formattedPercent + ')';
+        } else {
+          statusBadge.className = 'status-badge loss';
+          statusBadge.textContent = 'Rugi';
+          diffLabelText.textContent = 'Selisih Total (Rugi)';
+          diffAmountText.className = 'diff-amount loss';
+          diffAmountText.textContent = formattedDiffTotal;
+          diffPercentText.textContent = formattedPercent + ' dari modal Kurs A';
+          valStatusSummary.textContent = 'Depresiasi (' + formattedPercent + ')';
+        }
+
+        // Target calculation
+        const targetProfit = parseIdr(targetProfitInput.value);
+        if (usd > 0) {
+          const neededRate = rateA + (targetProfit / usd);
+          const rateMargin = neededRate - rateA;
+          targetRateOutput.textContent = formatIdrCurrency(neededRate) + ' / USD';
+          targetRateDiff.textContent = '+' + formatIdrCurrency(rateMargin) + ' / USD di atas Kurs A';
+        } else {
+          targetRateOutput.textContent = '-';
+          targetRateDiff.textContent = 'Nominal USD harus lebih dari 0';
+        }
+      }
+
+      // Quick Chips Handler
+      chips.forEach(btn => {
+        btn.addEventListener('click', () => {
+          chips.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          usdInput.value = formatNumber(parseFloat(btn.dataset.val));
+          calculate();
+        });
+      });
+
+      // Swap Handler
+      btnSwap.addEventListener('click', () => {
+        const temp = rateAInput.value;
+        rateAInput.value = rateBInput.value;
+        rateBInput.value = temp;
+        calculate();
+      });
+
+      // Live Market Fetcher
+      async function fetchMarketRate() {
+        try {
+          marketStatusText.textContent = 'Mengecek pasar...';
+          const res = await fetch('https://open.er-api.com/v6/latest/USD');
+          if (!res.ok) throw new Error('Network error');
+          const data = await res.json();
+          if (data && data.rates && data.rates.IDR) {
+            liveMarketRate = data.rates.IDR;
+            marketStatusText.textContent = 'Pasar: Rp ' + formatNumber(liveMarketRate, 0) + ' / USD';
+            marketRateText.textContent = 'Rp ' + formatNumber(liveMarketRate, 0) + ' / USD';
+          } else {
+            throw new Error('Invalid rate response');
+          }
+        } catch (err) {
+          marketStatusText.textContent = 'Mode manual aktif';
+          marketRateText.textContent = 'Data pasar tidak tersedia';
+          btnApplyMarket.disabled = true;
+          btnApplyMarket.style.opacity = '0.5';
+        }
+      }
+
+      btnApplyMarket.addEventListener('click', () => {
+        if (liveMarketRate) {
+          rateBInput.value = formatNumber(liveMarketRate, 0);
+          calculate();
+          showToast('Kurs pasar diterapkan ke Kurs B');
+        }
+      });
+
+      // Copy Summary
+      btnCopySummary.addEventListener('click', () => {
+        const usd = usdInput.value;
+        const rateA = rateAInput.value;
+        const rateB = rateBInput.value;
+        const totalA = valTotalA.textContent;
+        const totalB = valTotalB.textContent;
+        const diffText = diffAmountText.textContent;
+        const percent = diffPercentText.textContent;
+        const status = statusBadge.textContent;
+        const perDollar = valPerDollar.textContent;
+
+        const summary = [
+          'Perbandingan Kurs USD/IDR',
+          'Nominal: $' + usd,
+          'Kurs A (Beli): Rp ' + rateA + ' -> ' + totalA,
+          'Kurs B (Jual): Rp ' + rateB + ' -> ' + totalB,
+          'Selisih Total: ' + diffText + ' (' + status + ')',
+          'Persentase: ' + percent,
+          'Selisih per USD: ' + perDollar
+        ].join('\n');
+
+        navigator.clipboard.writeText(summary).then(() => {
+          showToast('Rangkuman berhasil disalin');
+        }).catch(() => {
+          showToast('Gagal menyalin rangkuman');
+        });
+      });
+
+      // Local History Storage
+      const STORAGE_KEY = 'sangkolo_valas_history';
+
+      function getHistory() {
+        try {
+          return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        } catch (e) {
+          return [];
+        }
+      }
+
+      function saveHistoryItem(item) {
+        const list = getHistory();
+        list.unshift(item);
+        if (list.length > 20) list.pop();
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+        renderHistory();
+      }
+
+      function deleteHistoryItem(id) {
+        let list = getHistory();
+        list = list.filter(item => item.id !== id);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+        renderHistory();
+      }
+
+      function clearHistory() {
+        localStorage.removeItem(STORAGE_KEY);
+        renderHistory();
+      }
+
+      function renderHistory() {
+        const list = getHistory();
+        if (list.length === 0) {
+          historyTableContainer.innerHTML = '<div class="history-empty">Belum ada skenario yang disimpan. Klik tombol "Simpan" di atas untuk menyimpan skenario saat ini.</div>';
+          return;
+        }
+
+        let html = '<table class="history-table"><thead><tr>';
+        html += '<th>Tanggal</th><th>USD</th><th>Kurs A</th><th>Kurs B</th><th>Selisih</th><th>Aksi</th>';
+        html += '</tr></thead><tbody>';
+
+        list.forEach(item => {
+          const isProfit = item.diffTotal > 0;
+          const isNeutral = Math.abs(item.diffTotal) < 0.01;
+          const colorClass = isNeutral ? 'var(--color-primary)' : (isProfit ? 'var(--color-accent-dark)' : 'var(--color-danger)');
+
+          html += '<tr>';
+          html += '<td style="color: var(--color-muted);">' + item.date + '</td>';
+          html += '<td style="font-weight: 600;">$' + formatNumber(item.usd) + '</td>';
+          html += '<td>Rp ' + formatNumber(item.rateA) + '</td>';
+          html += '<td>Rp ' + formatNumber(item.rateB) + '</td>';
+          html += '<td style="font-weight: 700; color: ' + colorClass + ';">' + (item.diffTotal > 0 ? '+' : '') + formatIdrCurrency(item.diffTotal) + '</td>';
+          html += '<td>';
+          html += '<button type="button" class="history-btn-load" data-load-id="' + item.id + '">Muat</button> ';
+          html += '<button type="button" class="history-btn-del" data-del-id="' + item.id + '" title="Hapus">×</button>';
+          html += '</td>';
+          html += '</tr>';
+        });
+
+        html += '</tbody></table>';
+        historyTableContainer.innerHTML = html;
+
+        // Attach event listeners to table buttons
+        historyTableContainer.querySelectorAll('.history-btn-load').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-load-id');
+            const item = getHistory().find(x => x.id === id);
+            if (item) {
+              usdInput.value = formatNumber(item.usd);
+              rateAInput.value = formatNumber(item.rateA);
+              rateBInput.value = formatNumber(item.rateB);
+              chips.forEach(c => {
+                c.classList.toggle('active', parseFloat(c.dataset.val) === item.usd);
+              });
+              calculate();
+              showToast('Skenario dimuat');
+            }
+          });
+        });
+
+        historyTableContainer.querySelectorAll('.history-btn-del').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-del-id');
+            deleteHistoryItem(id);
+            showToast('Item riwayat dihapus');
+          });
+        });
+      }
+
+      btnSaveHistory.addEventListener('click', () => {
+        const usd = parseIdr(usdInput.value);
+        const rateA = parseIdr(rateAInput.value);
+        const rateB = parseIdr(rateBInput.value);
+        const diffTotal = (usd * rateB) - (usd * rateA);
+
+        const now = new Date();
+        const dateStr = now.toLocaleDateString('id-ID', {
+          day: 'numeric',
+          month: 'short',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+
+        saveHistoryItem({
+          id: Date.now().toString(),
+          date: dateStr,
+          usd: usd,
+          rateA: rateA,
+          rateB: rateB,
+          diffTotal: diffTotal
+        });
+
+        showToast('Skenario berhasil disimpan');
+      });
+
+      btnClearHistory.addEventListener('click', () => {
+        if (confirm('Bersihkan semua riwayat tersimpan?')) {
+          clearHistory();
+          showToast('Semua riwayat dibersihkan');
+        }
+      });
+
+      function showToast(msg) {
+        toast.textContent = msg;
+        toast.classList.add('show');
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 2200);
+      }
+
+      // Initial run
+      calculate();
+      fetchMarketRate();
+      renderHistory();
+    })();
+  </script>
+</body>
+</html>
